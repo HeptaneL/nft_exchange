@@ -34,6 +34,18 @@ contract Airdrop721 is ERC721, Ownable  {
       lastTokenId = lastTokenId+whiteList.length;
   }
 
+  function airdropByTokenId(address[] calldata whiteList, uint256[] calldata tokenIds) external { 
+
+      require(_minters[msg.sender], "!minter");
+
+      for (uint i = 0; i < whiteList.length; i++) {
+          address to = whiteList[i];
+          uint256 tokenId = tokenIds[i];
+          require(to != address(0), "Address is not valid");
+          super._mint(to, tokenId);
+      }
+  }
+
   function setURIPrefix(string memory _baseURI) public onlyOwner{
       baseURI = _baseURI;
   }
